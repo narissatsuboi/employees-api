@@ -1,9 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import { getTableHandler } from './employeeController.js';
+import { getTableHandler, putItemHandler } from './employeeController.js';
 
 router.get('/', getTableHandler);
-// router.get('/dev', EmployeeController.getDevRecordsHandler);
-// router.get('/:permitnumber', EmployeeController.getRecordByPermitNumberHandler);
+router.post(/^\/(?:([^\/]+?))\/profile$/, putItemHandler)
 
 export default router;

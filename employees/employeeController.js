@@ -1,4 +1,4 @@
-import { getAllTableItems } from "./employeeService.js";
+import { getAllTableItems, putTableItem } from "./employeeService.js";
 
 export const getTableHandler = async (req, res) => {
   const tableData = await getAllTableItems();
@@ -9,17 +9,8 @@ export const getTableHandler = async (req, res) => {
   }
 };
 
-// const getRecordByPermitNumberHandler = async (req, res) => {
-//   const permitNumber = req.params.permitnumber;
-//   const record = await RecordsService.findRecordByPermitNumber(permitNumber);
-//   if (record) {
-//     res.json(record) ;
-//   }
-// };
-
-// const getDevRecordsHandler = async (req, res) => {
-//   const records = await RecordsService.findDevRecords();
-//   if (records) {
-//     res.json({ data : records }); 
-//   }
-// };
+export const putItemHandler = async (req, res) => {
+  const id = req.params[0];
+  await putTableItem();
+  res.status(201).send(`Employee ${id} created`)
+}

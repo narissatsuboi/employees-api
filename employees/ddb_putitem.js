@@ -5,33 +5,32 @@ const employeePutData = {
   TableName: "Employees",
   Item: {
     EmployeeID: {
-      S: "0000001",
+      S: "0000002",
     },
     FirstName: {
-      S: "Richard",
+      S: "Geo",
     }, 
     LastName: {
-      S: "Roe",
+      S: "Tsuboi",
     },
     StartDate: {
-      S: "2021-01-01",
+      S: "2016-04-11",
     },
     Country: {
       S: "US",
     },
     DepartmentID:{
-      S: "Accounting"
+      S: "Rocket Science"
     },
     Title: {
-      S: "Accountant",
+      S: "Rocket Scientist",
     },
     ManagerID: {
-      S: "M000002",
+      S: "M000003",
     },
     ManagerName: {
-      S: "Jane Doe",
+      S: "Albert Einstein",
     }
-
   }
 }
 
@@ -45,5 +44,3 @@ export const putItem = async () => {
     console.error(err);
   }
 };
-
-putItem() 

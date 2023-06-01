@@ -1,6 +1,6 @@
 import { CreateTableCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "./ddbClient.js"
-import { employeeTableInput } from "../employees/employeeTableInput.js";
+import { employeeTableInput } from "./employeeTableInput.js";
 
 export const createTable = async () => {
   const command = new CreateTableCommand(employeeTableInput);

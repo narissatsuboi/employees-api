@@ -40,9 +40,9 @@ export const putItem = async ( props ) => {
   }
   
   const command = new PutItemCommand(employeePutData);
+
   try {
-    const response = await client.send(command);
-    // return response;
+    await client.send(command);
   } catch (err) {
     console.error(err);
   }

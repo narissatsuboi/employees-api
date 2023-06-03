@@ -29,9 +29,11 @@ export const putItem = async ( props ) => {
         S: props.Title,
       },
       ManagerID: {
+        NULL: true,
         S: props.ManagerID,
       },
       ManagerName: {
+        NULL: true,
         S: props.ManagerName,
       }
     }

@@ -9,7 +9,7 @@ export const createTable = async () => {
     console.log(response);
     return response;
   } catch (err) {
-    console.error(err);
+    console.error(import.meta.url, err);
   }
 };
 

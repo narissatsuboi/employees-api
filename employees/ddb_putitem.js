@@ -12,7 +12,7 @@ export const putItem = async ( props, id ) => {
     TableName: "Employees",
     Item: {
       EmployeeID: {
-        S: "9999999",
+        S: props.EmployeeID,
       },
       FirstName: {
         S: props.FirstName,

@@ -5,6 +5,6 @@ export const getAllTableItems = async ( tableName ) => {
     return await scanTable(tableName)
 }
 
-export const putTableItem = async ( props ) => {
-    await putItem(props)
+export const putTableItem = async ( props, id ) => {
+    await putItem(props, id)
 }

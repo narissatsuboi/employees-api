@@ -11,6 +11,6 @@ export const getTableHandler = async (req, res) => {
 
 export const putItemHandler = async (req, res) => {
   const id = req.params[0];
-  await putTableItem();
-  res.status(201).send(`Employee ${id} created`)
+  await putTableItem(req.body);
+  res.status(201).json(req.body)
 }

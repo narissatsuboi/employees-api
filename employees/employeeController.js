@@ -1,4 +1,4 @@
-import { getAllItems, putItem, getItem } from "./employeeService.js";
+import { getAllItems, putItem, getItem } from "./profileService.js";
 
 /**
  * GET handler for /servicename.
@@ -46,4 +46,12 @@ export const postItemHandler = async (req, res) => {
     await putItem(req.body, paramID);
     res.status(201).json({ message : 'POST for EmployeeID ' + paramID + ' successful.'})
   }
+}
+
+export const getPhotoHandler = async (req, res) => { 
+  res.status(200).json({ message : 'GET for photo successful.'})
+}
+
+export const postPhotoHandler = async (req, res) => {
+  res.status(201).json({ message : 'POST for photo successful.'})
 }

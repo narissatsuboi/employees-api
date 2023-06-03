@@ -1,7 +1,13 @@
-import { client } from "./ddbClient.js"
 import { ScanCommand,
          PutItemCommand,
          GetItemCommand, } from "@aws-sdk/client-dynamodb"
+
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+
+const clientConfig = {
+    region: "us-east-1",
+}
+export const client = new DynamoDBClient(clientConfig)
 
 export const getAllItems = async ( tableName ) => {
         const request = {

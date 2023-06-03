@@ -1,7 +1,7 @@
 import { client } from "./ddbClient.js"
 import { ScanCommand,
          PutItemCommand,
-        GetItemCommand, } from "@aws-sdk/client-dynamodb"
+         GetItemCommand, } from "@aws-sdk/client-dynamodb"
 
 export const getAllItems = async ( tableName ) => {
         const request = {

@@ -1,4 +1,5 @@
 import { getAllItems, putItem, getItem } from "./profileService.js";
+import fs from 'fs' 
 
 /**
  * GET handler for /servicename.
@@ -53,5 +54,19 @@ export const getPhotoHandler = async (req, res) => {
 }
 
 export const postPhotoHandler = async (req, res) => {
-  res.status(201).json({ message : 'POST for photo successful.'})
+  
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  const imageFile = req.files.image;
+  const uploadFolderPath = './uploads/' + imageFile 
+
+  imageFile.mv(uploadFolderPath, function(err) {
+    if (err)
+      return res.status(500).send(err)
+    
+      res.status(201).json({ message : 'POST for photo successful.'})
+  })
 }

@@ -1,15 +1,18 @@
 import express, { json, urlencoded } from 'express'
+import bodyParser from 'body-parser'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-
+import fileUpload  from 'express-fileupload'
 import employeeRoutes from './employees/employeeRoutes.js'
 
-const app = express()
+const app = express({extended: true})
 
+app.use(bodyParser.json())
 app.use(cors())
 app.use(json({extended: true}))
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(fileUpload())
 
 app.use('/employees', employeeRoutes)
 

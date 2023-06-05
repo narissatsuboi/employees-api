@@ -21,9 +21,6 @@ const s3client = new S3Client(clientConfig)
 export async function createBucket () {
   const createBucketCommand = new CreateBucketCommand({
     Bucket: process.env.BUCKET_NAME,
-    CreateBucketConfiguration: {
-      LocationConstraint: 'us-east-1'
-    }
   })
 
   return s3client.send(createBucketCommand)

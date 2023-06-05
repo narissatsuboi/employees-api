@@ -6,6 +6,9 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import employeeRoutes from './employees/employeeRoutes.js'
 
+import {createTable} from './employees/profileService.js'
+import {createBucket} from './employees/photoService.js'
+
 const app = express({ extended: true })
 
 app.use(bodyParser.json())
@@ -24,6 +27,8 @@ const startServer = (port = 5000) => {
 const run = async port => {
   try {
     startServer(port)
+    // await createTable()
+    // await createBucket() 
   } catch (err) {
     console.log(err)
   }

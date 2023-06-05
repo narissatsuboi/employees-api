@@ -1,6 +1,7 @@
 import { ScanCommand,
          PutItemCommand,
-         GetItemCommand, } from "@aws-sdk/client-dynamodb"
+         GetItemCommand,
+         CreateTableCommand, } from "@aws-sdk/client-dynamodb"
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
@@ -92,3 +93,36 @@ export const getItem = async ( props ) => {
     console.error(import.meta.url, err);
   }
 };
+
+export const createTable = async () => {
+  const employeeTableInput = {
+    AttributeDefinitions: [
+      {
+        AttributeName: "EmployeeID",
+        AttributeType: "S",
+      },
+    ],
+    TableName: "Employees",
+    KeySchema: [
+      {
+        AttributeName: "EmployeeID",
+        KeyType: "HASH",
+      },
+    ],
+    ProvisionedThroughput: {
+      ReadCapacityUnits: 1,
+      WriteCapacityUnits: 1,
+    },
+  }
+
+  const command = new CreateTableCommand(employeeTableInput);
+  try {
+    const response = await client.send(command);
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.error(import.meta.url, err);
+  }
+};
+
+// createTable(employeeTableInput)

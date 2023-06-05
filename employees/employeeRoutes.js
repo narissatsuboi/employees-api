@@ -1,10 +1,14 @@
-import { Router } from 'express';
-const router = Router();
-import fileUpload from 'express-fileupload';
-import { getTableHandler, postItemHandler, getItemHandler } from './employeeController.js';
-import { getPhotoHandler, postPhotoHandler } from './employeeController.js';
+import { Router } from 'express'
+const router = Router()
+import multer from 'multer'
+import {
+  getTableHandler,
+  postItemHandler,
+  getItemHandler
+} from './employeeController.js'
+import { getPhotoHandler, postPhotoHandler } from './employeeController.js'
 
-router.get('/', getTableHandler);
+router.get('/', getTableHandler)
 
 router.get(/^\/(?:([^\/]+?))\/profile$/, getItemHandler)
 
@@ -12,6 +16,9 @@ router.post(/^\/(?:([^\/]+?))\/profile$/, postItemHandler)
 
 router.get(/^\/(?:([^\/]+?))\/photo$/, getPhotoHandler)
 
-router.post(/^\/(?:([^\/]+?))\/photo$/, postPhotoHandler, fileUpload())
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
-export default router;
+router.post(/^\/(?:([^\/]+?))\/photo$/, upload.single('file'), postPhotoHandler)
+
+export default router

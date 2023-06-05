@@ -1,68 +1,78 @@
-// Used to check if currently running file is this file.
-import { fileURLToPath } from "url";
-import { readdirSync, readFileSync, writeFileSync } from "fs";
-
 import {
-    CreateBucketCommand,
-    PutBucketPolicyCommand,
-    ListObjectsCommand,
-    DeleteBucketCommand,
-    DeleteObjectsCommand,
-  } from "@aws-sdk/client-s3";
+  CreateBucketCommand,
+  ListObjectsCommand,
+  DeleteBucketCommand,
+  DeleteObjectsCommand
+} from '@aws-sdk/client-s3'
 
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { randomUUID } from "crypto";
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+
+// instantiate S3 client
 const clientConfig = {
-    region: "us-east-1",
+  region: 'us-east-1'
 }
-const client = new S3Client(clientConfig);
+const s3client = new S3Client(clientConfig)
 
-const BUCKET_NAME = "d5b85820-0ffb-4d7d-8120-5a2221a4a617"
-
-export async function createBucket(bucketName) {
-    const createBucketCommand = new CreateBucketCommand({
-      Bucket: bucketName,
-    });
-  
-    return client.send(createBucketCommand);
-}
-
-export const putPhoto = async () =>  {
-    const input = {
-        Bucket: BUCKET_NAME,
-        Key: "photo.jpg",
-        Body: "yeehaw!", 
+/**
+ * Launch new bucket. This is a one-time operation.
+ */
+export async function createBucket () {
+  const createBucketCommand = new CreateBucketCommand({
+    Bucket: process.env.BUCKET_NAME,
+    CreateBucketConfiguration: {
+      LocationConstraint: 'us-east-1'
     }
-    const command = new PutObjectCommand(input)
-    try {
-        const response = await client.send(command)
-        console.log(response)
-    } catch (err) {
-        console.log(import.meta.url, err)
-    }
+  })
+
+  return s3client.send(createBucketCommand)
 }
 
-
-export function deleteBucket(bucketName) {
-    const deleteBucketCommand = new DeleteBucketCommand({
-        Bucket: bucketName,
-    });
-
-    return client.send(deleteBucketCommand);
-}
-
-export async function emptyBucket(bucketName) {
-  const listObjectsCommand = new ListObjectsCommand({ Bucket: bucketName });
-  const listObjectsResult = await client.send(listObjectsCommand);
-  const objects = listObjectsResult.Contents;
-  const objectIdentifiers = objects.map((o) => ({ Key: o.Key }));
+/**
+ * Empty all objects from bucket. This is a one-time operation.
+ * @param {*} bucketName
+ */
+export async function emptyBucket (bucketName) {
+  const listObjectsCommand = new ListObjectsCommand({ Bucket: bucketName })
+  const listObjectsResult = await s3client.send(listObjectsCommand)
+  const objects = listObjectsResult.Contents
+  const objectIdentifiers = objects.map(o => ({ Key: o.Key }))
   const deleteObjectsCommand = new DeleteObjectsCommand({
     Bucket: bucketName,
-    Delete: { Objects: objectIdentifiers },
-  });
+    Delete: { Objects: objectIdentifiers }
+  })
 
-  return client.send(deleteObjectsCommand);
+  return s3client.send(deleteObjectsCommand)
 }
 
-// createBucket(BUCKET_NAME)
-// putPhoto() 
+/**
+ * Delete bucket. This is a one-time operation.
+ * @param {*} bucketName
+ */
+export function deleteBucket (bucketName) {
+  const deleteBucketCommand = new DeleteBucketCommand({
+    Bucket: bucketName
+  })
+  return s3client.send(deleteBucketCommand)
+}
+
+/**
+ * Upload new image to bucket. Overwrites existing image with same key.
+ * @param {*} key Image key.
+ * @param {*} fileBuffer Buffer of image file.
+ */
+export const uploadImageObject = async (key, fileBuffer) => {
+  const input = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: key,
+    Body: fileBuffer,
+    ContentType: 'image/jpeg'
+  }
+
+  const command = new PutObjectCommand(input)
+  try {
+    const response = await s3client.send(command)
+    console.log(response)
+  } catch (err) {
+    console.log(import.meta.url, err)
+  }
+}

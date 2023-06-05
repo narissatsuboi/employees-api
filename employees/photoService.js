@@ -1,3 +1,5 @@
+import fs from 'fs'
+
 import {
   CreateBucketCommand,
   ListObjectsCommand,
@@ -5,7 +7,7 @@ import {
   DeleteObjectsCommand
 } from '@aws-sdk/client-s3'
 
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
 // instantiate S3 client
 const clientConfig = {
@@ -75,4 +77,22 @@ export const uploadImageObject = async (key, fileBuffer) => {
   } catch (err) {
     console.log(import.meta.url, err)
   }
+}
+
+
+export const downloadImage = async (key) => {
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: key
+  }
+
+  const command = new GetObjectCommand(params)
+
+  const response = await s3client.send(command)
+
+
+  const path = response.Body 
+  const file = fs.createReadStream(path)
+  const filename = key + '.jpg'
+  return file 
 }

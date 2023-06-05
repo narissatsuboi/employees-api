@@ -1,8 +1,26 @@
 import { CreateTableCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "./ddbClient.js"
-import { employeeTableInput } from "./employeeTableInput.js";
 
-export const createTable = async () => {
+const employeeTableInput = {
+  AttributeDefinitions: [
+    {
+      AttributeName: "EmployeeID",
+      AttributeType: "S",
+    },
+  ],
+  TableName: "Employees",
+  KeySchema: [
+    {
+      AttributeName: "EmployeeID",
+      KeyType: "HASH",
+    },
+  ],
+  ProvisionedThroughput: {
+    ReadCapacityUnits: 1,
+    WriteCapacityUnits: 1,
+  },
+}
+export const createTable = async (input) => {
   const command = new CreateTableCommand(employeeTableInput);
   try {
     const response = await client.send(command);

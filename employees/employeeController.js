@@ -1,7 +1,15 @@
 import sharp from 'sharp'
 import { getAllItems, putItem, getItem } from './profileService.js'
-import { uploadImageObject } from './photoService.js'
+import { uploadImageObject, downloadImage } from './photoService.js'
+import { PutObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import fs, { read } from 'fs'
+import path from 'path'
 
+// instantiate S3 client
+const clientConfig = {
+  region: 'us-east-1'
+}
+const s3client = new S3Client(clientConfig)
 /**
  * GET handler for /employees. Displays all employees.
  * @param {*} req
@@ -60,7 +68,21 @@ export const postItemHandler = async (req, res) => {
  * @param {*} res
  */
 export const getPhotoHandler = async (req, res) => {
-  res.status(200).json({ message: 'GET for photo successful.' })
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: req.params[0]
+  }
+
+  const command = new GetObjectCommand(params)
+  const response = await s3client.send(command)
+  const filename = req.params[0] + '.jpg'
+  const writeStream = fs.createWriteStream(filename)
+  const readStream = response.Body
+  readStream.pipe(writeStream)
+
+  res.status(200).sendFile(path.resolve(filename))
+
+  fs.unlink(filename)
 }
 
 /**

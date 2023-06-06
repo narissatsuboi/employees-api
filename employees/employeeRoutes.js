@@ -2,17 +2,17 @@ import { Router } from 'express'
 const router = Router()
 import multer from 'multer'
 import {
-  getTableHandler,
-  postItemHandler,
-  getItemHandler
+  getAllEmployees,
+  postEmployeeHandler,
+  getEmployeeByIDHandler
 } from './employeeController.js'
 import { getPhotoHandler, postPhotoHandler } from './employeeController.js'
 
-router.get('/', getTableHandler)
+router.get('/', getAllEmployees)
 
-router.get(/^\/(?:([^\/]+?))\/profile$/, getItemHandler)
+router.get(/^\/(?:([^\/]+?))\/profile$/, getEmployeeByIDHandler)
 
-router.post(/^\/(?:([^\/]+?))\/profile$/, postItemHandler)
+router.post(/^\/(?:([^\/]+?))\/profile$/, postEmployeeHandler)
 
 router.get(/^\/(?:([^\/]+?))\/photo$/, getPhotoHandler)
 

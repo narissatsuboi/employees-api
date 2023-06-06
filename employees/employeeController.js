@@ -1,24 +1,35 @@
 import sharp from 'sharp'
-import { getAllItems, putItem, getItem } from './profileService.js'
+import {
+  getAllEmployeeInfo,
+  putEmployee,
+  getEmployeeByID
+} from './profileService.js'
 import { uploadImageObject, downloadImage } from './photoService.js'
-import { PutObjectCommand, GetObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import fs, { read } from 'fs'
+import {
+  PutObjectCommand,
+  GetObjectCommand,
+  S3Client
+} from '@aws-sdk/client-s3'
+import fs from 'fs'
 import path from 'path'
 
-// instantiate S3 client
+/**
+ * Instantiate S3 client.
+ */
 const clientConfig = {
   region: 'us-east-1'
 }
 const s3client = new S3Client(clientConfig)
+
 /**
  * GET handler for /employees. Displays all employees.
  * @param {*} req
  * @param {*} res
  */
-export const getTableHandler = async (req, res) => {
-  const tableData = await getAllItems()
+export const getAllEmployees = async (req, res) => {
+  const tableData = await getAllEmployeeInfo()
   if (tableData) {
-    res.type('json').send(JSON.stringify(tableData.Items, null, '\t'))
+    res.type('json').send(JSON.stringify(tableData, null, '\t'))
   } else {
     res.json({ message: 'No items to show' })
   }
@@ -29,16 +40,16 @@ export const getTableHandler = async (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const getItemHandler = async (req, res) => {
+export const getEmployeeByIDHandler = async (req, res) => {
   const paramID = req.params[0]
-  const response = await getItem(paramID)
-  console.log(Object.keys(response).length)
-  if (Object.keys(response).length === 1) {
-    res.status(200).json({
+  const response = await getEmployeeByID(paramID)
+
+  if (response) {
+    res.type('json').send(JSON.stringify(response, null, '\t'))
+  } else {
+    res.status(400).json({
       message: 'No item matching provided URL parameter ' + paramID + ' found.'
     })
-  } else {
-    res.type('json').send(response.Item, null, '\t')
   }
 }
 
@@ -47,7 +58,7 @@ export const getItemHandler = async (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const postItemHandler = async (req, res) => {
+export const postEmployeeHandler = async (req, res) => {
   const paramID = req.params[0]
 
   if (paramID !== req.body.EmployeeID) {
@@ -55,7 +66,7 @@ export const postItemHandler = async (req, res) => {
       .status(400)
       .json({ message: 'EmployeeID in path and body do not match' })
   } else {
-    await putItem(req.body, paramID)
+    await putEmployee(req.body)
     res
       .status(201)
       .json({ message: 'POST for EmployeeID ' + paramID + ' successful.' })

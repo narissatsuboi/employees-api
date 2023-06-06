@@ -4,11 +4,14 @@ import multer from 'multer'
 import {
   getAllEmployees,
   postEmployeeHandler,
-  getEmployeeByIDHandler
+  getEmployeeByIDHandler,
+  getUnmarshalledData,
 } from './employeeController.js'
 import { getPhotoHandler, postPhotoHandler } from './employeeController.js'
 
 router.get('/', getAllEmployees)
+router.get('/all/', getUnmarshalledData)
+
 
 router.get(/^\/(?:([^\/]+?))\/profile$/, getEmployeeByIDHandler)
 

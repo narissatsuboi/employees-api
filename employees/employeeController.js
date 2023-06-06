@@ -2,7 +2,8 @@ import sharp from 'sharp'
 import {
   getAllEmployeeInfo,
   putEmployee,
-  getEmployeeByID
+  getEmployeeByID,
+  getAllEmployeeInfoUnmarshalled,
 } from './profileService.js'
 import { uploadImageObject, downloadImage } from './photoService.js'
 import {
@@ -30,6 +31,20 @@ export const getAllEmployees = async (req, res) => {
   const tableData = await getAllEmployeeInfo()
   if (tableData) {
     res.type('json').send(JSON.stringify(tableData, null, '\t'))
+  } else {
+    res.json({ message: 'No items to show' })
+  }
+}
+
+/**
+ * GET handler for /all. For sharing data with other microservices. 
+ * @param {*} req
+ * @param {*} res
+ */
+export const getUnmarshalledData = async (req, res) => {
+  const data = await getAllEmployeeInfoUnmarshalled()
+  if (data) {
+    res.type('json').send(data)
   } else {
     res.json({ message: 'No items to show' })
   }
@@ -117,3 +132,4 @@ export const postPhotoHandler = async (req, res) => {
   }
   res.status(201).json({ message: 'POST for photo successful.' })
 }
+

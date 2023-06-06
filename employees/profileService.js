@@ -43,6 +43,29 @@ export const getAllEmployeeInfo = async (tableName=TABLE) => {
   }
 }
 
+
+/**
+ * Calls DynamoDB ScanCommand to retrieve all items in table and return 
+ * as unmarshalled list of DDB objects. 
+ * @param {*} tableName 
+ * @returns Unmarshalled list of all items in table.
+ */
+export const getAllEmployeeInfoUnmarshalled = async (tableName=TABLE) => {
+  const request = {
+    TableName: tableName
+  }
+  const command = new ScanCommand(request)
+  try {
+    let response = await client.send(command)
+
+    return response ? response.Items : null
+    
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
 /**
  * Put single employee item into DynamoDB table.
  * @param {*} props JSON object containing employee data

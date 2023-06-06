@@ -87,7 +87,6 @@ export const downloadImage = async (key) => {
 
   const response = await s3client.send(command)
 
-
   const path = response.Body 
   const file = fs.createReadStream(path)
   const filename = key + '.jpg'

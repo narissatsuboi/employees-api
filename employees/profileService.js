@@ -4,6 +4,7 @@ import { ScanCommand,
          CreateTableCommand, } from "@aws-sdk/client-dynamodb"
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb'
 
 const clientConfig = {
     region: "us-east-1",
@@ -17,12 +18,9 @@ export const getAllItems = async ( tableName ) => {
         const command = new ScanCommand(request);
         try {
           const response = await client.send(command);
-          response.Items.forEach(function (employee) {
-            console.log(`${employee.FirstName.S} ${employee.LastName.S} (${employee.EmployeeID.S}) started on ${employee.StartDate.S}`)
-          })
           return response;
         } catch (err) {
-          console.error(err);
+          // console.error(err);
         }
 }
 

@@ -28,9 +28,9 @@ const s3client = new S3Client(clientConfig)
  * @param {*} res
  */
 export const getAllEmployees = async (req, res) => {
-  const tableData = await getAllEmployeeInfo()
-  if (tableData) {
-    res.type('json').send(JSON.stringify(tableData, null, '\t'))
+  const data = await getAllEmployeeInfo()
+  if (data) {
+    res.type('json').send(JSON.stringify(data, null, '\t'))
   } else {
     res.json({ message: 'No items to show' })
   }

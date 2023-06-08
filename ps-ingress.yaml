@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: psingress
+  namespace: default
+  labels:
+    app: psingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /peoplesuite/apis/employees
+            backend:
+              service:
+                name: empsvc
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /peoplesuite/apis/departments
+            backend:
+              service:
+                name: deptsvc
+                port:
+                  number: 80

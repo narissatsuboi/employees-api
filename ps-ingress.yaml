@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: "*.amazonaws.com"
+    - host: "k8s-default-psingres-47ccba838e-1682578040.us-east-1.elb.amazonaws.com"
       http:
         paths:
           - pathType: Prefix

@@ -18,7 +18,7 @@ app.use(json({ extended: true }))
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.use('/peoplesuite/apis/employees', employeeRoutes)
+app.use('/employees', employeeRoutes)
 
 const startServer = (port = 5000) => {
   app.listen(port, () => console.log(`Server is running on port: ${port}`))

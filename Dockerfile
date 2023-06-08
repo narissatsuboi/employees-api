@@ -1,5 +1,5 @@
 FROM node:lts-bullseye-slim
-WORKDIR /peoplesuite
+WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
 COPY . .

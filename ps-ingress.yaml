@@ -12,17 +12,18 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - http:
+    - host: "*.amazonaws.com"
+      http:
         paths:
           - pathType: Prefix
-            path: /peoplesuite/apis/employees
+            path: /employees
             backend:
               service:
                 name: empsvc
                 port:
                   number: 80
           - pathType: Prefix
-            path: /peoplesuite/apis/departments
+            path: /departments
             backend:
               service:
                 name: deptsvc

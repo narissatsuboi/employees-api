@@ -103,26 +103,25 @@ export const getPhotoHandler = async (req, res) => {
 
   const command = new GetObjectCommand(params)
   const response = await s3client.send(command)
-  const filename = req.params[0] + '.jpg'
+  const file = req.params[0] + '.jpg'
 
   
   const writePhoto = async (filename, fd) => {
     try {
-      await pipeline(response.Body, fs.createWriteStream(filename))
-      res.status(200).sendFile(path.resolve(filename))
+      await pipeline(fd, fs.createWriteStream(filename))
     } catch (err) {
       console.error('Error writing photo', err)
     }
   }
 
-  await writePhoto(filename, response.Body)
-
-  fs.unlink(filename, (err => {
-    if (err) {
-      console.error(err)
-      return
-    }
-  }))
+  await writePhoto(file, response.Body)
+  res.status(200).sendFile(path.resolve(file))
+  // fs.unlink(file, (err => {
+  //   if (err) {
+  //     console.error(err)
+  //     return
+  //   }
+  // }))
 }
 
 /**

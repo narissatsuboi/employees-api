@@ -14,6 +14,8 @@ import {
 import fs from 'fs'
 import path from 'path'
 
+import { pipeline } from 'stream/promises'
+
 /**
  * Instantiate S3 client.
  */
@@ -102,13 +104,24 @@ export const getPhotoHandler = async (req, res) => {
   const command = new GetObjectCommand(params)
   const response = await s3client.send(command)
   const filename = req.params[0] + '.jpg'
-  const writeStream = fs.createWriteStream(filename)
-  const readStream = response.Body
-  readStream.pipe(writeStream)
 
-  res.status(200).sendFile(path.resolve(filename))
+  const writePhoto = async (filename, fd) => {
+    try {
+      await pipeline(response.Body, fs.createWriteStream(filename))
+      res.status(200).sendFile(path.resolve(filename))
+    } catch (err) {
+      console.error('Error writing photo', err)
+    }
+  }
 
-  fs.unlink(filename)
+  await writePhoto(filename, response.Body)
+
+  fs.unlink(filename, (err => {
+    if (err) {
+      console.error(err)
+      return
+    }
+  }))
 }
 
 /**

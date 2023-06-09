@@ -105,6 +105,7 @@ export const getPhotoHandler = async (req, res) => {
   const response = await s3client.send(command)
   const filename = req.params[0] + '.jpg'
 
+  
   const writePhoto = async (filename, fd) => {
     try {
       await pipeline(response.Body, fs.createWriteStream(filename))

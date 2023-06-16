@@ -2,13 +2,13 @@ import {
   ScanCommand,
   PutItemCommand,
   GetItemCommand,
-  CreateTableCommand,
+  CreateTableCommand
 } from '@aws-sdk/client-dynamodb'
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { unmarshall } from '@aws-sdk/util-dynamodb'
 
-const TABLE = "Employees"
+const TABLE = 'Employees'
 
 /**
  * Instantiate DynamoDB client.
@@ -20,10 +20,10 @@ export const client = new DynamoDBClient(clientConfig)
 
 /**
  * Calls DynamoDB ScanCommand to retrieve all items in table.
- * @param {*} tableName 
+ * @param {*} tableName
  * @returns Object of all items in table.
  */
-export const getAllEmployeeInfo = async (tableName=TABLE) => {
+export const getAllEmployeeInfo = async (tableName = TABLE) => {
   const request = {
     TableName: tableName
   }
@@ -37,20 +37,18 @@ export const getAllEmployeeInfo = async (tableName=TABLE) => {
     } else {
       return response ? response : null
     }
-    
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
 
-
 /**
- * Calls DynamoDB ScanCommand to retrieve all items in table and return 
- * as unmarshalled list of DDB objects. 
- * @param {*} tableName 
+ * Calls DynamoDB ScanCommand to retrieve all items in table and return
+ * as unmarshalled list of DDB objects.
+ * @param {*} tableName
  * @returns Unmarshalled list of all items in table.
  */
-export const getAllEmployeeInfoUnmarshalled = async (tableName=TABLE) => {
+export const getAllEmployeeInfoUnmarshalled = async (tableName = TABLE) => {
   const request = {
     TableName: tableName
   }
@@ -59,19 +57,17 @@ export const getAllEmployeeInfoUnmarshalled = async (tableName=TABLE) => {
     let response = await client.send(command)
 
     return response ? response.Items : null
-    
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
-
 
 /**
  * Put single employee item into DynamoDB table.
  * @param {*} props JSON object containing employee data
  * @param {*} tableName name of DDB table to put item into
  */
-export const putEmployee = async (props, tableName=TABLE) => {
+export const putEmployee = async (props, tableName = TABLE) => {
   const employeePutData = {
     TableName: tableName,
     Item: {
@@ -118,11 +114,11 @@ export const putEmployee = async (props, tableName=TABLE) => {
 
 /**
  * Get single employee item from DynamoDB table.
- * @param {*} props 
- * @param {*} tableName 
- * @returns Object of single item. 
+ * @param {*} props
+ * @param {*} tableName
+ * @returns Object of single item.
  */
-export const getEmployeeByID = async (props, tableName=TABLE) => {
+export const getEmployeeByID = async (props, tableName = TABLE) => {
   const input = {
     Key: {
       EmployeeID: {
@@ -136,7 +132,7 @@ export const getEmployeeByID = async (props, tableName=TABLE) => {
 
   try {
     let response = await client.send(command)
-    
+
     if (response.Item) {
       response = unmarshall(response.Item)
       return response

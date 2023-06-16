@@ -116,12 +116,6 @@ export const getPhotoHandler = async (req, res) => {
 
   await writePhoto(file, response.Body)
   res.status(200).sendFile(path.resolve(file))
-  // fs.unlink(file, (err => {
-  //   if (err) {
-  //     console.error(err)
-  //     return
-  //   }
-  // }))
 }
 
 /**

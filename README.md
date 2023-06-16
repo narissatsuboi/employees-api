@@ -1,7 +1,7 @@
 # employee api
 
 ## Description
-Node.js REST API for employee profiles of a fictious company. Developed and deployed for graduate level Cloud Computing course at Seattle University. 
+Node.js REST API for employee profiles of a fictious company. Developed and deployed for graduate level Cloud Computing course at Seattle University. Communicated with Department API (private repo) to exchange stateful data. 
 
 #### Developed with:
 - Node.js - API server.
@@ -18,3 +18,4 @@ Node.js REST API for employee profiles of a fictious company. Developed and depl
 ## AWS Architecture Diagram 
 
 ![architecture_diagram](readme_assets\employee-api-arch.png)
+

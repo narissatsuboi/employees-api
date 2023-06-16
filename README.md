@@ -17,3 +17,4 @@ Node.js REST API for employee profiles of a fictious company. Developed and depl
 
 ## AWS Architecture Diagram 
 
+![architecture_diagram](readme_assets\employee-api-arch.png)

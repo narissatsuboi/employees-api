@@ -1,5 +1,5 @@
 # Human Resources Microservice AWS Project
-Welcome to the Employee Profiles REST API project, developed as a part of the graduate-level Cloud Computing course at Seattle University. This project showcases the implementation of a Node.js-based RESTful API for managing employee profiles within a fictitious company. The API allows you to create, retrieve, update, and delete employee profiles, and also supports storing employee profile photos in Amazon S3.
+Welcome to the Employee Profiles REST API project, developed as an individually as part of the graduate-level Cloud Computing course at Seattle University. This project showcases the implementation of a Node.js-based RESTful API for managing employee profiles within a fictitious company. The API allows you to create, retrieve, update, and delete employee profiles, and also supports storing employee profile photos in Amazon S3.
 
 - [Features](#features)
 - [Built with](#built-with)
